@@ -1,35 +1,4 @@
-#include <iostream>
-#include <stdlib.h>
-#include <cstring>
-#include <time.h>
-
-using namespace std;
- 
-const int n=5;
- 
-int c[n] ;   // номер хода, на котором посещается вершина
-int path[n]; // номера посещаемых вершин
-int v0=0;    // начальная вершина
- 
-//Матрица смежности
-int a[n][n] = 
-{
-    0,1,1,0,0,
-	1,0,0,1,0,
-	1,0,0,1,1,
-	0,1,1,0,1,
-    0,0,1,1,0
-};
-
-void prnt(void){
-	int p;
-	for (p = 0; p<n; p++){
-		cout  <<  path[p] + 1  <<  "\t";
-		cout  <<  path[0] + 1;
-    	cout  <<  endl;
-	}
-	 		
-}
+#include "header.hpp"
 
 int** create(int n)
 {
@@ -69,99 +38,276 @@ int** create(int n)
 	return G;
 }
 
-int** m_create(int n)
-{
-	int **G, k = 1, num, x = 0;
-	char o[5] = "   ";
-	G = (int**)malloc(n * sizeof(int*));
-	srand(time(NULL));
-	for (int i = 0; i < n; i++)
-		cout << "V" << i << " ";
-	cout << endl;
-	for (int i = 0; i < n; i++){
-		G[i] = (int*)malloc(n * sizeof(int));
-
-		G[i][i] = 0;
-		
-		cout << G[i][i];
-		for (int j = k; j < n; j++){
-			cout << "  ";
-			cin >> x;
-			//cout << "  ";
-			G[i][j] = x;
-		}
-		k++;
-	}
-	k = 1;
-	for (int i = 0; i < n; i++){
-		for (int j = k; j < n; j++){
-			G[j][i] = G[i][j];
-		}
-		k++;
-	}
-	for (int i = 0; i < n; i++)
-		cout << "V" << i << " ";
-	for (int i = 0; i < n; i++){
-		cout << "\n";
-		for (int j = 0; j < n; j++){
-			cout << G[i][j] << "  ";
-		}
-	}
-	return G;
+void size_A(){
+    int n = 0;
+    cout << "размер графа: ";
+    cin >> n;
+    cout << endl;
+    create(n);
+    cout << endl;
+    mainmenu();
 }
 
-//подпрограмма нахождения гамильтонова цикла
-int gamilton (int k)
-{
-	int v, q1 = 0;
-    for(v = 0; v < n && !q1; v++)
-    {
-    	if(a[v][path[k-1]] || a[path[k-1]][v])
-    	{
-    		if (k == n &&  v == v0 )
-				q1 = 1;
-			else if (c[v] == -1) 
-			{
-				c[v] = k;
-				path[k] = v;
-				q1 = gamilton (k+1);
-				if (!q1) c[v] = -1;
-			}
-			else continue;
-    	}
+void size_M(){
+    int n = 0;
+    cout << "размер графа: ";
+    cin >> n;
+    cout << endl;
+
+}
+
+void pos(int a) {
+
+	if (a == 0) {
+		system("clear");
+		cout << 
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>       РУЧНОЕ ЗАПОЛНЕНИЕ       <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 1) {
+		system("clear");
+		cout << 
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>        АВТОЗАПОЛНЕНИЕ         <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 2) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>       СОХРАНЕНИЕ ДАННЫХ       <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 3) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>   ПОИСК ГАМИЛЬНТОНОВА ЦИКЛА   <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 4) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>      СОХРАНИТЬ РЕЗУЛЬТАТ      <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 5) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>            ВЫХОД              <<   |\n"
+			"                                        \\                                          /\n";
+	}
+}
+
+int mainmenu(){
+	struct termios newt, oldt;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    int a = 0;
+	pos(a);
+    int c = 0;
+    while(true){
+        do {
+            c = cin.get();
+        
+            switch(c){
+                case 'A':
+                    if (a == 0){
+                        a = 6;
+                        pos(a);
+                    }
+                    if (a > 0){
+                        a = a - 2;
+                        pos(a);
+                    }
+                case 'B':
+                    if (a < 6){
+                        a++;
+                        pos(a);
+                    }
+                    if (a == 6){
+                        a = 0;
+                        pos(a);
+                    }
+                default:
+                    break;
+            }
+        } while (c != 10);
+            if (a == 0)
+            {
+                system("clear");
+                //size_A();
+            }
+            if (a == 1)
+            {
+                system("clear");
+                size_A();
+                
+                //break;
+            }
+            if (a == 2)
+            {
+
+                system("clear");
+                //prnt();
+            }
+            if (a == 3)
+            {
+               system("clear");
+                //prepare();
+            }
+            if (a == 4)
+            {
+                system("clear");
+                //read_file();
+            }
+            if (a == 5)
+            {
+                system("clear");
+                break;
+            }
+        
+            
     }
-	return q1;
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return EXIT_SUCCESS;
 }
- 
+
+
+
 int main(){
-	int j, n, n1, ** t, ** t1, ** t2, ** t3, ** t4, o, u;
-	char am1[] = "r";
-	char am2[] = "e";
-	char ch[2];
-	cout << "random or manual enter? (""r"" is random, ""e"" is manual enter)" << endl;
-	cin >> ch;
-	if (strcmp(ch, am1) == 0){
-		cout << "Enter array size: ";
-		cin >> n;
-		t = create(n);
-		cout << endl;
-	}
-	else if (strcmp(ch, am2) == 0){
-			cout << "Enter array size: ";
-			cin >> n;
-			t1 = m_create(n);
-			cout << endl;
-		}
-		else{
-			cout << "No such variant" << endl;
-		}
-	
-    cout << "Гамильтонов цикл:\n";
-        for(j=0; j<n; j++)
-			c[j] = -1;
-    path[0]=v0;
-    c[v0]=v0;
-    if (gamilton(1)) prnt(); else cout << "Нет решений\n";
-    //cin.get();
+	mainmenu();
 	return 0;
 }
