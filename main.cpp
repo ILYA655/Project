@@ -340,7 +340,7 @@ int** create(int n){
 
 int** m_create(int n){
 	//int **G, 
-    int k = 1, num, x = 0;
+    int k = 1;
 	G = (int**)malloc(n * sizeof(int*));	
 	cout << endl;
 	for (int i = 0; i < n; i++){
@@ -424,34 +424,37 @@ void save_data(int n){
 }
 
 void check(){
-	int a = 0;
-	int b = 0;
-	int c = 0;
-	if (n >= 3){
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				if (G[i][j] == 0) {
-					for (int p = 0; p < n; p++) {
-						if (G[i][p] == 1) {
-							a++;
-						}
+	int a = 0, b = 0, s = 1, l = 1;
+    if (n >= 3)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = s; j < n; j++)
+            {
+                if (G[i][j] == 0)
+                {
+                    for (int p = 0; p < n; p++)
+                    {
+                        if (G[i][p] == 1)
+                            a++;
+                        if (G[j][p] == 1)
+                            b++;
+                    }
+					if (a + b >= n)
+					{
+						prepare(n);
+						return;
 					}
-					for (int k = 0; k < n; k++) {
-						if (G[k][j] == 1) {
-							b++;
-						}
-					}
-				}
-			}
-		}
-	}
-	c = a + b;
-	if (c >= n){
-		prepare(n);
-	}
-	else {
-		cout << "no gamilton's way" << endl;
-	}
+                }
+            }
+            s++;
+            a = 0; b = 0;
+        }
+		l++;
+		s = l;
+    }
+	cout << "NO WAY" << endl;
+	return;
 }
 
 void prepare(int n){
