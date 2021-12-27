@@ -1,14 +1,304 @@
-#include <iostream>
-#include <fstream>
- 
-using namespace std;
-
-int n;
+#include "header.hpp"
+int n, er;
 int v0;
 
 int **t;
 int **G;
 int **G1;
+int a = 0;
+
+int* res = (int*)malloc(n * sizeof(int));
+
+enum
+{
+  KEY_UP    = 65,
+  KEY_DOWN  = 66,
+  ENTER  = 10
+};
+
+int mygetch(){
+    struct termios oldt,newt;
+    int ch;
+    tcgetattr( STDIN_FILENO, &oldt );
+    newt = oldt;
+    newt.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
+    ch = cin.get();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+    return ch;
+}
+
+void pos(int a) {
+
+	if (a == 0) {
+		system("clear");
+		cout << 
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>       РУЧНОЕ ЗАПОЛНЕНИЕ       <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 1) {
+		system("clear");
+		cout << 
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>        АВТОЗАПОЛНЕНИЕ         <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 2) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>       СОХРАНЕНИЕ ДАННЫХ       <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 3) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>   ПОИСК ГАМИЛЬНТОНОВА ЦИКЛА   <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 4) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>      СОХРАНИТЬ РЕЗУЛЬТАТ      <<   |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |                  выход                   |\n"
+			"                                        \\                                          /\n";
+	}
+	if (a == 5) {
+		system("clear");
+		cout <<
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             ручное заполнение            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |              автозаполнение              |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |             сохранение данных            |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |          поиск гамильтонова цикла        |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |            сохранить результат           |\n"
+			"                                        \\                                          /\n"
+			"                                                                                     \n"
+			"                                        /                                          \\\n"
+			"                                        |    >>            ВЫХОД              <<   |\n"
+			"                                        \\                                          /\n";
+	}
+}
+
+int mainmenu () {
+    
+    int ch;// = mygetch();
+    //int a = 0;
+	  pos(a);
+    while(true){
+        //c = 0;
+        do {
+                //c = getchar();
+            ch = mygetch();
+			//a = 0;
+                switch(ch){
+                    case KEY_UP:
+                        if (a == 0){
+                            a = 6;
+                            pos(a);
+                        }
+                        if (a > 0){
+                            a = a - 2;
+                            pos(a);
+                        }
+                    case KEY_DOWN:
+                        if (a < 6){
+                            a++;
+                            pos(a);
+                        }
+                        if (a == 6){
+                            a = 0;
+                            pos(a);
+                        }
+                    default:
+                        break;
+                }
+            } while (ch != ENTER);
+                if (a == 0)
+                {
+                    system("clear");
+					a = -1;
+                    size_M();
+
+                }
+                if (a == 1)
+                {
+                    system("clear");
+					a = -1;
+                    size_A();
+                    
+                    //break;
+                }
+                if (a == 2)
+                {
+
+                    system("clear");
+					a = -1;
+                    save_data(n);
+                }
+                if (a == 3)
+                {
+                	system("clear");
+					a = -1;
+                    prepare(n);
+                }
+                if (a == 4)
+                {
+                    system("clear");
+					a = -1;
+                    save_res();
+                }
+                if (a == 5)
+                {
+					system("clear");
+					exit(3);
+                }
+        }
+
+    return 0;
+}
+
+void size_A(){
+    n = 0;
+    cout << "размер графа: ";
+    cin >> n;
+    cout << endl;
+	cout << "Автозаполнение" << endl;
+    t = create(n);
+    cout << endl;
+    mainmenu();
+}
+
+void size_M(){
+    n = 0;
+    cout << "размер графа: ";
+    cin >> n;
+    cout << endl;
+	cout << "Ручное заполнение" << endl;
+	t = m_create(n);
+    cout << endl;
+    pos(0);
+}
 
 int** create(int n){
 	// int** G, k = 1;
@@ -87,18 +377,8 @@ void printGam(int* path)
         cout << path[p] << " ";
     cout << path[0];
     cout << endl;
-}
-
-void printGam_s(int* path)
-{
-	ofstream res;
-	res.open("result.txt");
-    int p;
-    for (p = 0; p < n; p++)
-        res << path[p] << " ";
-    res << path[0];
-    res << endl;
-	res.close();
+	for (int i = 0; i < n; i++)
+        res[i] = path[i];
 }
 
 //подпрограмма нахождения гамильтонова цикла
@@ -129,24 +409,10 @@ int gamilton(int k, int* path, int* c)
         }
     }   return q1;                          //возвращаем нашли или нет
 }
- 
-int main(){
-    int p = 0;
-	char a;
-    int* c = (int*)malloc(n * sizeof(int));           // номер хода, на котором посещается вершина
 
-    //int path[n];
-    int* path = (int*)malloc(n * sizeof(int));			// номера посещаемых вершин
-
+void save_data(int n){
 	ofstream fout;
-	fout.open("data.txt");  
-	cout << "сколько элементов ";
-	cin >> n;
-	cout << endl;
-	
-	for (int j = 0; j < n; j++)
-		c[j] = -1;                       //помечаем, что все вершины не пройдены
-	t = m_create(n);;
+	fout.open("data.txt");
 	for (int i = 0; i < n; i++){
 		fout << endl;
 		for (int j = 0; j < n; j++){
@@ -154,7 +420,19 @@ int main(){
 		}
 	}
 	fout.close();
-	cout << endl;
+	mainmenu ();
+}
+
+void prepare(int n){
+	int* c = (int*)malloc(n * sizeof(int));           // номер хода, на котором посещается вершина
+	int* path = (int*)malloc(n * sizeof(int));			// номера посещаемых вершин
+	for (int j = 0; j < n; j++)
+		c[j] = -1;                       //помечаем, что все вершины не пройдены
+	//t = m_create(n);
+	cout << endl << "c xtuj yfxfnm" << endl;
+    cin >> v0;
+    path[0] = v0;                           //начинаем путь с вершины v0
+    c[v0] = v0;
 	ifstream fin;
     fin.open("data.txt");
     if (!fin.is_open())
@@ -181,22 +459,34 @@ int main(){
 		// }
 	}
 	fin.close();
-
-    cout << endl << "c xtuj yfxfnm" << endl;
-    cin >> v0;
-    path[0] = v0;                           //начинаем путь с вершины v0
-    c[v0] = v0;
 	cout << "Gamilton's circle:" << endl;                             // и она пройдена
     if (gamilton(1, path, c))               //ищем путь, начиная с прохода 1
         printGam(path);
-    else
-        cout << "No solutions" << endl;
-		cout << endl;
-	ofstream res;
-	res.open("result.txt");
-	if (gamilton(1, path, c))               //ищем путь, начиная с прохода 1
-        printGam_s(path);
-    else
-        fout << "No solutions" << endl;
+    else{
+		er = 1;
+		cout << "No solutions" << endl;
+	}
+	cout << endl;
+	mainmenu();
+}
+
+void save_res(){
+	ofstream fout;
+	fout.open("result.txt");
+	fout << "результат поиска:" << endl;
+	if (er == 1){
+		fout << "нет решений";
+	}
+	else{
+		for (int i = 0; i < n; i++){
+		fout << res[i] << "  ";
+		}
+		fout << res[0];
+	}
 	fout.close();
+	mainmenu();
+}
+
+int main(){
+	mainmenu();
 }
