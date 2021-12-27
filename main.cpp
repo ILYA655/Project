@@ -429,7 +429,7 @@ void prepare(int n){
 	for (int j = 0; j < n; j++)
 		c[j] = -1;                       //помечаем, что все вершины не пройдены
 	//t = m_create(n);
-	cout << endl << "c xtuj yfxfnm" << endl;
+	cout << endl << "с какой вершины начать обход?" << endl;
     cin >> v0;
     path[0] = v0;                           //начинаем путь с вершины v0
     c[v0] = v0;
