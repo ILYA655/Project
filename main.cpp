@@ -260,7 +260,7 @@ int mainmenu () {
                 {
                 	system("clear");
 					a = -1;
-                    prepare(n);
+                    check();
                 }
                 if (a == 4)
                 {
@@ -280,13 +280,13 @@ int mainmenu () {
 
 void size_A(){
     n = 0;
-    cout << "размер графа: ";
-    cin >> n;
-    cout << endl;
+	cout << "размер графа: ";
+	cin >> n;
+	cout << endl;
 	cout << "Автозаполнение" << endl;
-    t = create(n);
-    cout << endl;
-    mainmenu();
+	t = create(n);
+	cout << endl;
+	mainmenu();
 }
 
 void size_M(){
@@ -302,7 +302,7 @@ void size_M(){
 
 int** create(int n){
 	// int** G, k = 1;
-	int k = 0;
+	int k = 1;
 	G = (int**)malloc(n * sizeof(int*));
 	srand(time(NULL));
 	for (int i = 0; i < n; i++){
@@ -421,6 +421,37 @@ void save_data(int n){
 	}
 	fout.close();
 	mainmenu ();
+}
+
+void check(){
+	int a = 0;
+	int b = 0;
+	int c = 0;
+	if (n >= 3){
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (G[i][j] == 0) {
+					for (int p = 0; p < n; p++) {
+						if (G[i][p] == 1) {
+							a++;
+						}
+					}
+					for (int k = 0; k < n; k++) {
+						if (G[k][j] == 1) {
+							b++;
+						}
+					}
+				}
+			}
+		}
+	}
+	c = a + b;
+	if (c >= n){
+		prepare(n);
+	}
+	else {
+		cout << "no gamilton's way" << endl;
+	}
 }
 
 void prepare(int n){
