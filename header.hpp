@@ -12,6 +12,7 @@ using namespace std;
 int main();
 int mygetch();
 void prepare(int n);
+void check();
 void save_data(int n);
 void save_res();
 int gamilton (int k);
