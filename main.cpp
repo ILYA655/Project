@@ -1,4 +1,4 @@
-##include "header.hpp"
+#include "header.hpp"
 int n, er;
 int v0;
 
@@ -202,15 +202,11 @@ void pos(int a) {
 
 int mainmenu () {
     
-    int ch;// = mygetch();
-    //int a = 0;
+    int ch;
 	  pos(a);
     while(true){
-        //c = 0;
         do {
-                //c = getchar();
             ch = mygetch();
-			//a = 0;
                 switch(ch){
                     case KEY_UP:
                         if (a == 0){
@@ -246,8 +242,6 @@ int mainmenu () {
                     system("clear");
 					a = -1;
                     size_A();
-                    
-                    //break;
                 }
                 if (a == 2)
                 {
@@ -280,10 +274,11 @@ int mainmenu () {
 
 void size_A(){
     n = 0;
+	cout << "Автозаполнение" << endl;
 	cout << "размер графа: ";
 	cin >> n;
 	cout << endl;
-	cout << "Автозаполнение" << endl;
+	
 	t = create(n);
 	cout << endl;
 	mainmenu();
@@ -291,17 +286,17 @@ void size_A(){
 
 void size_M(){
     n = 0;
+	cout << "Ручное заполнение" << endl;
     cout << "размер графа: ";
     cin >> n;
     cout << endl;
-	cout << "Ручное заполнение" << endl;
+	
 	t = m_create(n);
     cout << endl;
     pos(0);
 }
 
 int** create(int n){
-	// int** G, k = 1;
 	int k = 1;
 	G = (int**)malloc(n * sizeof(int*));
 	srand(time(NULL));
@@ -339,7 +334,6 @@ int** create(int n){
 }
 
 int** m_create(int n){
-	//int **G, 
     int k = 1;
 	G = (int**)malloc(n * sizeof(int*));	
 	cout << endl;
@@ -381,29 +375,26 @@ void printGam(int* path)
         res[i] = path[i];
 }
 
-//подпрограмма нахождения гамильтонова цикла
-//k - номер прохода или количество найденных вершин пути, результат - массив path, возвращвет признак нахождения пути
+
 int gamilton(int k, int* path, int* c){
-    int v;          //индекс вершины
-    int q = 0;     //признак нахождения пути, сначала - не найдено
-    for (v = 0; v < n && !q; v++){ // обход матрицы по всем вершинам и пока не найден путь
-        //есть ли ребро между текущей вершиной и вершиной, найденной при предыдущем вызове
-        //если граф неориентированный, то оба используемых элемента матрицы должны быть равны
-        if (G1[v][path[k - 1]] || G1[path[k - 1]][v]){ 
-            if (k == n && v == v0)          //если обошли все вершины и дошли до начальной,
-                q = 1;                     // то путь найден
+    int v;
+    int q = 0;
+    for (v = 0; v < n && !q; v++){
+        if (G1[v][path[k - 1]] || G1[path[k - 1]][v]){
+            if (k == n && v == v0)
+                q = 1;
             else
-                if (c[v] == -1){             //формируем путь, если в вершине v еще не были
-                    c[v] = k;               //номер прохода
-                    path[k] = v;            //занесение вершины в найденный путь
-                    q = gamilton(k + 1, path, c);   //ищем следующую вершину
-                    if (!q)					//если путь не найден
-						c[v] = -1;  	   //то помечаем текущую вершину, как непройденную
+                if (c[v] == -1){
+                    c[v] = 1;
+                    path[k] = v;
+                    q = gamilton(k + 1, path, c);
+                    if (!q)
+						c[v] = -1;
                 }
                 else
-                    continue;               //если в вершине уже были, то на анализ следующей вершины
+                    continue;
         }
-    }   return q;                          //возвращаем нашли или нет
+    }   return q;
 }
 
 void save_data(int n){
@@ -415,16 +406,18 @@ void save_data(int n){
 			fout << G[i][j] << "  ";
 		}
 	}
+	cout << "данные сохранены" << endl;
 	fout.close();
 	mainmenu ();
 }
 
 void check(){
-	int a = 0, b = 0, s = 1, l = 1;
+	int a = 0, b = 0, s = 1, l = 1, x = 0;
     if (n >= 3){
         for (int i = 0; i < n; i++){
             for (int j = s; j < n; j++){
                 if (G[i][j] == 0){
+					x++;
                     for (int p = 0; p < n; p++){
                         if (G[i][p] == 1)
                             a++;
@@ -443,19 +436,27 @@ void check(){
 		l++;
 		s = l;
     }
-	cout << "NO WAY" << endl;
-	return;
+	if (x == 0){
+		prepare(n);
+		return;
+	}
+	else{
+		cout << "нет цикла" << endl;
+		return;
+	}
+		
+	
+	
 }
 
 void prepare(int n){
-	int* c = (int*)malloc(n * sizeof(int));           // номер хода, на котором посещается вершина
-	int* path = (int*)malloc(n * sizeof(int));			// номера посещаемых вершин
+	int* c = (int*)malloc(n * sizeof(int));
+	int* path = (int*)malloc(n * sizeof(int));
 	for (int j = 0; j < n; j++)
-		c[j] = -1;                       //помечаем, что все вершины не пройдены
-	//t = m_create(n);
+		c[j] = -1;
 	cout << endl << "с какой вершины начать обход?" << endl;
     cin >> v0;
-    path[0] = v0;                           //начинаем путь с вершины v0
+    path[0] = v0;
     c[v0] = v0;
 	ifstream fin;
     fin.open("data.txt");
@@ -468,27 +469,17 @@ void prepare(int n){
 		G1 = new int*[n];
 		for (int i = 0; i < n; i++)
 			 G1[i] = new int[n];
-
-		//Считаем матрицу из файла
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < n; j++)
 				fin >> G1[i][j];
-
-		//Выведем матрицу
-		// for (int i = 0; i < n; i++)
-		// {
-		// 	for (int j = 0; j < n; j++)
-		// 		cout << G1[i][j] << "  ";
-		// 	cout << endl;
-		// }
 	}
 	fin.close();
-	cout << "Gamilton's circle:" << endl;
-    if (gamilton(1, path, c))               //ищем путь, начиная с прохода 1
+	cout << "гамильтонов цикл:" << endl;
+    if (gamilton(1, path, c))
         printGam(path);
     else{
 		er = 1;
-		cout << "No solutions" << endl;
+		cout << "нет решений" << endl;
 	}
 	cout << endl;
 	mainmenu();
@@ -507,6 +498,7 @@ void save_res(){
 		}
 		fout << res[0];
 	}
+	cout << "результат сохранен" << endl;
 	fout.close();
 	mainmenu();
 }
@@ -514,3 +506,4 @@ void save_res(){
 int main(){
 	mainmenu();
 }
+
